@@ -10,8 +10,10 @@ use Kayue\WordpressBundle\Wordpress\Helper\AttachmentHelper;
 use Kayue\WordpressBundle\Wordpress\ManagerRegistry;
 use Kayue\WordpressBundle\Wordpress\Shortcode\ShortcodeChain;
 use Symfony\Bundle\TwigBundle\DependencyInjection\TwigExtension;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
-class WordpressExtension extends TwigExtension
+class WordpressExtension extends AbstractExtension
 {
     /**
      * @var ManagerRegistry
@@ -61,38 +63,38 @@ class WordpressExtension extends TwigExtension
     public function getFilters()
     {
         return array(
-            new Twig\TwigFunction('wp_autop', [$this, 'wpautop']),
-            new Twig\TwigFunction('wp_texturize', [$this, 'wptexturize']),
-            new Twig\TwigFunction('wp_shortcode', [$this, 'doShortcode']),
+            new TwigFunction('wp_autop', [$this, 'wpautop']),
+            new TwigFunction('wp_texturize', [$this, 'wptexturize']),
+            new TwigFunction('wp_shortcode', [$this, 'doShortcode']),
         );
     }
 
     public function getFunctions()
     {
         return array(
-            new Twig\TwigFunction('wp_switch_blog', [$this, 'switchBlog']),
-            new Twig\TwigFunction('wp_find_option_by', [$this, 'findOneOptionBy']),
+            new TwigFunction('wp_switch_blog', [$this, 'switchBlog']),
+            new TwigFunction('wp_find_option_by', [$this, 'findOneOptionBy']),
 
             // Post related functions
-            new Twig\TwigFunction('wp_find_post_by', [$this, 'findOnePostBy']),
-            new Twig\TwigFunction('wp_find_post_metas_by', [$this, 'findPostMetasBy']),
-            new Twig\TwigFunction('wp_find_comments_by_post', [$this, 'findCommentsByPost']),
-            new Twig\TwigFunction('wp_find_attachments', [$this, 'findAttachmentsByPost']),
-            new Twig\TwigFunction('wp_find_attachment_by_id', [$this, 'findOneAttachmentById']),
-            new Twig\TwigFunction('wp_find_thumbnail', [$this, 'findThumbnail']),
-            new Twig\TwigFunction('wp_find_featured_image', [$this, 'findThumbnail']),
-            new Twig\TwigFunction('wp_get_attachment_url', [$this, 'getAttachmentUrl']),
-            new Twig\TwigFunction('wp_get_attachment_alt_text', [$this, 'getAttachmentAltText']),
-            new Twig\TwigFunction('wp_get_post_format', [$this, 'getPostFormatByPost']),
+            new TwigFunction('wp_find_post_by', [$this, 'findOnePostBy']),
+            new TwigFunction('wp_find_post_metas_by', [$this, 'findPostMetasBy']),
+            new TwigFunction('wp_find_comments_by_post', [$this, 'findCommentsByPost']),
+            new TwigFunction('wp_find_attachments', [$this, 'findAttachmentsByPost']),
+            new TwigFunction('wp_find_attachment_by_id', [$this, 'findOneAttachmentById']),
+            new TwigFunction('wp_find_thumbnail', [$this, 'findThumbnail']),
+            new TwigFunction('wp_find_featured_image', [$this, 'findThumbnail']),
+            new TwigFunction('wp_get_attachment_url', [$this, 'getAttachmentUrl']),
+            new TwigFunction('wp_get_attachment_alt_text', [$this, 'getAttachmentAltText']),
+            new TwigFunction('wp_get_post_format', [$this, 'getPostFormatByPost']),
 
             // Terms related functions
-            new Twig\TwigFunction('wp_find_terms_by_post', [$this, 'findTermsByPost']),
-            new Twig\TwigFunction('wp_find_categories_by_post', [$this, 'findCategoriesByPost']),
-            new Twig\TwigFunction('wp_find_tags_by_post', [$this, 'findTagsByPost']),
+            new TwigFunction('wp_find_terms_by_post', [$this, 'findTermsByPost']),
+            new TwigFunction('wp_find_categories_by_post', [$this, 'findCategoriesByPost']),
+            new TwigFunction('wp_find_tags_by_post', [$this, 'findTagsByPost']),
 
             // User related functions
-            new Twig\TwigFunction('wp_find_user_meta_by', [$this, 'findOneUserMetaBy']),
-            new Twig\TwigFunction('wp_find_user_metas_by', [$this, 'findUserMetasBy']),
+            new TwigFunction('wp_find_user_meta_by', [$this, 'findOneUserMetaBy']),
+            new TwigFunction('wp_find_user_metas_by', [$this, 'findUserMetasBy']),
         );
     }
 

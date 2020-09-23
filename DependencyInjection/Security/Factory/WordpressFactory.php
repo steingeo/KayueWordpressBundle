@@ -2,10 +2,10 @@
 
 namespace Kayue\WordpressBundle\DependencyInjection\Security\Factory;
 
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AbstractFactory;
 
 class WordpressFactory extends AbstractFactory
@@ -42,7 +42,7 @@ class WordpressFactory extends AbstractFactory
         $authProviderId = $templateId . '.' . $id;
 
         $container
-            ->setDefinition($authProviderId, new DefinitionDecorator($templateId))
+            ->setDefinition($authProviderId, new ChildDefinition($templateId))
             ->addArgument(new Reference('security.user_checker'))
         ;
 
@@ -64,7 +64,7 @@ class WordpressFactory extends AbstractFactory
         $cookieServiceId = $templateId . '.' .$id;
 
         /** @var $cookieService Definition */
-        $cookieService = $container->setDefinition($cookieServiceId, new DefinitionDecorator($templateId));
+        $cookieService = $container->setDefinition($cookieServiceId, new ChildDefinition($templateId));
         $cookieService->addArgument(new Reference('kayue_wordpress.manager.authentication_cookie'));
         $cookieService->addArgument(new Reference($userProviderId));
         $cookieService->addArgument($this->options);
@@ -73,7 +73,7 @@ class WordpressFactory extends AbstractFactory
         // Add CookieClearingLogoutHandler to logout
         if ($container->hasDefinition('security.logout_listener.'.$id)) {
             $cookieHandlerId = 'kayue_wordpress.security.logout.handler.cookie_clearing.'.$id;
-            $container->setDefinition($cookieHandlerId, new DefinitionDecorator('kayue_wordpress.security.logout.handler.cookie_clearing'));
+            $container->setDefinition($cookieHandlerId, new ChildDefinition('kayue_wordpress.security.logout.handler.cookie_clearing'));
 
             $container
                 ->getDefinition('security.logout_listener.'.$id)
@@ -82,7 +82,7 @@ class WordpressFactory extends AbstractFactory
         }
 
         $listenerId = $this->getListenerId();
-        $listener = $container->setDefinition($listenerId, new DefinitionDecorator('kayue_wordpress.security.authentication.listener'));
+        $listener = $container->setDefinition($listenerId, new ChildDefinition('kayue_wordpress.security.authentication.listener'));
         $listener->replaceArgument(1, new Reference($cookieServiceId));
 
         return $listenerId;
